@@ -3,7 +3,8 @@
 ### Log Daily Health and Analyse Progress Graphically
 
 This application aims to be a tool that is used to ***log daily health statistics***
-such as **body mass, body muscle, body fat percentage and body water percentage.**
+such as **body mass, body muscle, body fat percentage, body water percentage, and the number 
+of glasses of water per day.**
 This can then be used to track BMI progress and changes in these statistics using graphs.
 
 
@@ -21,3 +22,12 @@ an application which would perform the tasks that this aims to achieve.
 I believe this application would be a great asset to anyone just casually starting to 
 monitor health statistics or even already working out and want to measure
 their progress with ease.
+
+
+### User Stories 
+
+- As a user, I want to be able to log my daily health statistics.
+- As a user, I want to be able to input current height and calculate BMI.
+- As a user, I want to be able to check how the amount of water I drank has varied over the past days.
+- As a user, I want to be able to view graphs on how my body mass, body fat percentage,
+body muscle and body water percentage has varied over the past month. 
