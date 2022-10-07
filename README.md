@@ -14,7 +14,8 @@ This can then be used to track BMI progress and changes in these statistics usin
 - users ***casually monitoring body health*** statistics
 
 
-#### Why this project is of interest to me:
+#### Why this project is of interest to m
+e:
 This project is of interest to me because when I started going to the gym 
 and started monitoring my daily diet, I would have greatly benefited from 
 an application which would perform the tasks that this aims to achieve.
@@ -28,6 +29,7 @@ their progress with ease.
 
 - As a user, I want to be able to log my daily health statistics.
 - As a user, I want to be able to input current height and calculate BMI.
+- As a user, I want to be able to input current height and calculate BMI class.
 - As a user, I want to be able to check how the amount of water I drank has varied over the past days.
 - As a user, I want to be able to view graphs on how my body mass, body fat percentage,
 body muscle and body water percentage has varied over the past month. 
