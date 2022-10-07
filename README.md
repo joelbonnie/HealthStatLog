@@ -14,8 +14,7 @@ This can then be used to track BMI progress and changes in these statistics usin
 - users ***casually monitoring body health*** statistics
 
 
-#### Why this project is of interest to m
-e:
+#### Why this project is of interest to me:
 This project is of interest to me because when I started going to the gym 
 and started monitoring my daily diet, I would have greatly benefited from 
 an application which would perform the tasks that this aims to achieve.

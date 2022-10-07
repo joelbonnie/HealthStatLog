@@ -42,8 +42,8 @@ public class HealthLog {
     // EFFECTS: returns BMI for the current log
     public double determineBodyMassIndex(double height) {
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        Double bodyMassIndex = Double.parseDouble(decimalFormat.format(bodyMass / (height * height)));
-        return bodyMassIndex;
+        return Double.parseDouble(decimalFormat.format(bodyMass / (height * height)));
+
     }
 
     // REQUIRES: height is non-zero and in m
