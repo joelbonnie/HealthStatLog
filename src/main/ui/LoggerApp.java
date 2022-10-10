@@ -1,12 +1,14 @@
 package ui;
 
 
-import java.sql.SQLOutput;
+import model.HealthLog;
+import model.HealthProgress;
+
 import java.util.Scanner;
 
 // command line interface for running the logger
 public class LoggerApp {
-
+    private HealthProgress progressList;
     private Scanner scanner;
 
     // EFFECTS: creates a LoggerApp instance and
@@ -17,28 +19,56 @@ public class LoggerApp {
     // MODIFIES: this
     // EFFECTS: method to take input from user
     public void takeInput() {
-        Boolean continueProgram = true;
+        boolean continueProgram = true;
         String inputGiven = "";
+        progressList = new HealthProgress("Joel");
 
         scanner = new Scanner(System.in);
         scanner.useDelimiter("\n");
 
         while (continueProgram) {
             displayInputOptions();
-            inputGiven = scanner.nextLine();
+            inputGiven = scanner.next();
+
             if (inputGiven.equals("Q")) {
                 continueProgram = false;
             } else {
                 processInput(inputGiven);
+                System.out.println("Do you want to continue? (Y/N)");
+                String checkContinueCondition = scanner.next();
+                checkContinueCondition = checkContinueCondition.toUpperCase();
+                if (checkContinueCondition.equals("N")) {
+                    continueProgram = false;
+                }
             }
         }
+        System.out.println("Thank You!");
     }
+
 
     // MODIFIES: this
     // EFFECTS: determines which method to call depending on input given
     public void processInput(String inputGiven) {
+        if (inputGiven.equals("1")) {
+            inputLog();
+        } else if (inputGiven.equals("2")) {
+            calculateBodyMassIndex();
+        } else if (inputGiven.equals("3")) {
+            calculateBodyMassIndexClass();
+        } else if (inputGiven.equals("4")) {
+            calculateWaterGlassProgress();
+        } else if (inputGiven.equals("5")) {
+            calculateBodyMassProgress();
+        } else if (inputGiven.equals("6")) {
+            calculateMusclePercentProgress();
+        } else if (inputGiven.equals("7")) {
+            calculateFatPercentProgress();
+        } else if (inputGiven.equals("8")) {
+            calculateWaterPercentProgress();
+        }
 
     }
+
 
     // EFFECTS: shows the options available to the user for selection
     public void displayInputOptions() {
@@ -53,5 +83,151 @@ public class LoggerApp {
         System.out.println("8  ->  See how water percentage has varied over the past month");
         System.out.println("Q  ->  Quit");
     }
+
+
+    // EFFECTS: creates a HealthLog Object with the specified values
+    public void inputLog() {
+
+        System.out.println("Enter the date (in format DDMMYYYY): ");
+        String date = scanner.next();
+        System.out.println("Enter Body Mass (in kg): ");
+        double bodyMass = scanner.nextDouble();
+        System.out.println("Enter Muscle Percentage (in percent): ");
+        double musclePercentage = scanner.nextDouble();
+        System.out.println("Enter Fat Percentage (in percent): ");
+        double fatPercentage = scanner.nextDouble();
+        System.out.println("Enter Water Percentage (in percent): ");
+        double waterPercentage = scanner.nextDouble();
+        System.out.println("Enter the number of water glasses: ");
+        int waterGlassesDrank = scanner.nextInt();
+
+        HealthLog todaysLog = new HealthLog(date, bodyMass, musclePercentage,
+                fatPercentage, waterPercentage, waterGlassesDrank);
+        progressList.addDailyLog(todaysLog);
+        System.out.println("Log Added!");
+
+    }
+
+    // EFFECTS: calculates body mass index with inputted height and most recent Health Log
+    public void calculateBodyMassIndex() {
+        System.out.println("Enter height (in metres): ");
+        double height = scanner.nextDouble();
+
+        int numberOfHealthLogs = progressList.getHealthLogList().size();
+        if (numberOfHealthLogs == 0) {
+            System.out.println("You have no health logs yet. Add a health log!");
+        } else {
+            HealthLog mostRecentHealthLog = progressList.getHealthLogList().get(numberOfHealthLogs - 1);
+            double currentBMI = mostRecentHealthLog.determineBodyMassIndex(height);
+            System.out.println("Your current BMI is " + currentBMI);
+        }
+
+    }
+
+    // EFFECTS: calculates body mass index class with inputted height and most recent Health Log
+    public void calculateBodyMassIndexClass() {
+        System.out.println("Enter height (in metres): ");
+        double height = scanner.nextDouble();
+
+        int numberOfHealthLogs = progressList.getHealthLogList().size();
+        if (numberOfHealthLogs == 0) {
+            System.out.println("You have no health logs yet. Add a health log!");
+        } else {
+            HealthLog mostRecentHealthLog = progressList.getHealthLogList().get(numberOfHealthLogs - 1);
+            String currentBodyMassIndexClass = mostRecentHealthLog.determineBodyMassIndexClass(height);
+            System.out.println("Your current BMI Class is " + currentBodyMassIndexClass);
+        }
+    }
+
+    // EFFECTS: shows variation in glasses of water drank daily over the most recent 7 Health Logs
+    public void calculateWaterGlassProgress() {
+        int numberOfHealthLogs = progressList.getHealthLogList().size();
+        if (numberOfHealthLogs == 0) {
+            System.out.println("You have no health logs yet. Add a health log!");
+        } else {
+            if (numberOfHealthLogs < 7) {
+                System.out.println("You have less than 7 health logs! Showing progress for those available! ");
+            }
+            for (int healthLogCounter = 0; (healthLogCounter < 7 && healthLogCounter < numberOfHealthLogs);
+                    healthLogCounter++) {
+                int currentWaterGlasses = progressList.getHealthLogList().get(healthLogCounter).getWaterGlassesDrank();
+                System.out.println(currentWaterGlasses);
+
+            }
+        }
+    }
+
+
+    // EFFECTS: shows variation in Body Mass over the most recent 30 Health Logs
+    public void calculateBodyMassProgress() {
+        int numberOfHealthLogs = progressList.getHealthLogList().size();
+        if (numberOfHealthLogs == 0) {
+            System.out.println("You have no health logs yet. Add a health log!");
+        } else {
+            if (numberOfHealthLogs < 30) {
+                System.out.println("You have less than 30 health logs! Showing progress for those available! ");
+            }
+            for (int healthLogCounter = 0; (healthLogCounter < 30 && healthLogCounter < numberOfHealthLogs);
+                    healthLogCounter++) {
+                double currentBodyMass = progressList.getHealthLogList().get(healthLogCounter).getBodyMass();
+                System.out.println(currentBodyMass);
+            }
+        }
+    }
+
+    // EFFECTS: shows variation in Muscle Percentage over the most recent 30 Health Logs
+    public void calculateMusclePercentProgress() {
+        int numberOfHealthLogs = progressList.getHealthLogList().size();
+        if (numberOfHealthLogs == 0) {
+            System.out.println("You have no health logs yet. Add a health log!");
+        } else {
+            if (numberOfHealthLogs < 30) {
+                System.out.println("You have less than 30 health logs! Showing progress for those available! ");
+            }
+            for (int healthLogCounter = 0; (healthLogCounter < 30 && healthLogCounter < numberOfHealthLogs);
+                    healthLogCounter++) {
+                double currentMusclePercent =
+                        progressList.getHealthLogList().get(healthLogCounter).getMusclePercentage();
+                System.out.println(currentMusclePercent);
+            }
+        }
+    }
+
+    // EFFECTS: shows variation in Fat Percentage over the most recent 30 Health Logs
+    public void calculateFatPercentProgress() {
+        int numberOfHealthLogs = progressList.getHealthLogList().size();
+        if (numberOfHealthLogs == 0) {
+            System.out.println("You have no health logs yet. Add a health log!");
+        } else {
+            if (numberOfHealthLogs < 30) {
+                System.out.println("You have less than 30 health logs! Showing progress for those available! ");
+            }
+            for (int healthLogCounter = 0; (healthLogCounter < 30 && healthLogCounter < numberOfHealthLogs);
+                    healthLogCounter++) {
+                double currentFatPercent =
+                        progressList.getHealthLogList().get(healthLogCounter).getFatPercentage();
+                System.out.println(currentFatPercent);
+            }
+        }
+    }
+
+    // EFFECTS: shows variation in Water Percentage over the most recent 30 Health Logs
+    public void calculateWaterPercentProgress() {
+        int numberOfHealthLogs = progressList.getHealthLogList().size();
+        if (numberOfHealthLogs == 0) {
+            System.out.println("You have no health logs yet. Add a health log!");
+        } else {
+            if (numberOfHealthLogs < 30) {
+                System.out.println("You have less than 30 health logs! Showing progress for those available! ");
+            }
+            for (int healthLogCounter = 0; (healthLogCounter < 30 && healthLogCounter < numberOfHealthLogs);
+                    healthLogCounter++) {
+                double currentWaterPercent =
+                        progressList.getHealthLogList().get(healthLogCounter).getWaterPercentage();
+                System.out.println(currentWaterPercent);
+            }
+        }
+    }
+
 
 }

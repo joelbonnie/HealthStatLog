@@ -49,7 +49,7 @@ public class HealthLog {
     // REQUIRES: height is non-zero and in m
     // EFFECTS: returns BMI class for the current log
     public String determineBodyMassIndexClass(double height) {
-        Double bodyMassIndex = determineBodyMassIndex(height);
+        double bodyMassIndex = determineBodyMassIndex(height);
         if (bodyMassIndex < 18.50) {
             return "Below Ideal";
         } else if (bodyMassIndex < 25.00) {
