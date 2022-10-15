@@ -73,15 +73,19 @@ public class LoggerApp {
     // EFFECTS: shows the options available to the user for selection
     public void displayInputOptions() {
         System.out.println("\nSelect Your Option!");
-        System.out.println("1  ->  Input daily log");
-        System.out.println("2  ->  Calculate BMI");
-        System.out.println("3  ->  Calculate BMI class");
-        System.out.println("4  ->  See the number of glasses of water drank each day over the past 7 days ");
-        System.out.println("5  ->  See how body mass has varied over the past month");
-        System.out.println("6  ->  See how muscle percentage has varied over the past month");
-        System.out.println("7  ->  See how fat percentage has varied over the past month");
-        System.out.println("8  ->  See how water percentage has varied over the past month");
-        System.out.println("Q  ->  Quit");
+        System.out.println("****************************************************************************************");
+        System.out.println("*   [1]   ->  Input daily log                                                          *");
+        System.out.println("*   [2]   ->  Calculate BMI                                                            *");
+        System.out.println("*   [3]   ->  Calculate BMI class                                                      *");
+        System.out.println("*   [4]   ->  See the number of glasses of water drank each day over the past 7 days   *");
+        System.out.println("*   [5]   ->  See how body mass has varied over the past month                         *");
+        System.out.println("*   [6]   ->  See how muscle percentage has varied over the past month                 *");
+        System.out.println("*   [7]   ->  See how fat percentage has varied over the past month                    *");
+        System.out.println("*   [8]   ->  See how water percentage has varied over the past month                  *");
+        System.out.println("*   [Q]   ->  Quit                                                                     *");
+        System.out.println("****************************************************************************************");
+        System.out.println("Your option: ");
+
     }
 
 
