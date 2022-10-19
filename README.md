@@ -32,3 +32,5 @@ their progress with ease.
 - As a user, I want to be able to check how the amount of water I drank has varied over the past days.
 - As a user, I want to be able to view graphs on how my body mass, body fat percentage,
 body muscle and body water percentage has varied over the past month. 
+- As a user, I want to be able to save the currently inputted health statistics to file.
+- As a user, I want to be able to load previously inputted health statistics from file.
