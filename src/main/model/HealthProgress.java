@@ -48,6 +48,7 @@ public class HealthProgress implements Writable {
         return jsonObj;
     }
 
+    // EFFECTS: returns the HealthLogs in healthLogList as a JSON array
     public JSONArray healthLogToJson() {
         JSONArray healthLogsJson = new JSONArray();
         for (HealthLog currentLog: healthLogList) {

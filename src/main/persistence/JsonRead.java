@@ -36,7 +36,7 @@ public class JsonRead {
         return parseHealthProgress(jsonObj);
     }
 
-    // EFFECTS: returns the content of the file as a string
+    // EFFECTS: reads file and returns the content of the file as a string
     //          throws IOException if any error occurs while reading from the file
     private String readFile(String source) throws IOException {
         StringBuilder builder = new StringBuilder();

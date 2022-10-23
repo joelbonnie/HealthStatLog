@@ -18,8 +18,11 @@ public class LoggerApp {
     private JsonRead jsonRead;
     private JsonWrite jsonWrite;
 
-    // EFFECTS: creates a LoggerApp instance and
-    public LoggerApp() {
+    // EFFECTS: creates a LoggerApp instance and runs application
+    public LoggerApp() throws FileNotFoundException {
+        progressList = new HealthProgress("Joel");
+        jsonRead = new JsonRead(JSON_STORE);
+        jsonWrite = new JsonWrite(JSON_STORE);
         takeInput();
     }
 
@@ -28,15 +31,9 @@ public class LoggerApp {
     public void takeInput() {
         boolean continueProgram = true;
         String inputGiven;
-        progressList = new HealthProgress("Joel");
-
-        jsonRead = new JsonRead(JSON_STORE);
-        jsonWrite = new JsonWrite(JSON_STORE);
-
         scanner = new Scanner(System.in);
         scanner.useDelimiter("\n");
 
-        System.out.println("\n WARNING: ");
         while (continueProgram) {
             displayInputOptions();
             inputGiven = scanner.next();
@@ -240,6 +237,8 @@ public class LoggerApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: loads HealthProgress object from JSON file
     public void loadData() {
         try {
             progressList = jsonRead.read();
@@ -249,6 +248,7 @@ public class LoggerApp {
         }
     }
 
+    // EFFECTS: saves the current logs in progressList to the JSON file
     public void saveData() {
         try {
             jsonWrite.openWriter();
