@@ -1,0 +1,21 @@
+{
+  "health logs": [
+    {
+      "date": "03102022",
+      "body mass": 80.0,
+      "muscle percent": 50.0,
+      "fat percent": 22.0,
+      "water percent": 45.0,
+      "water glasses": 10
+    },
+    {
+      "date": "04102022",
+      "body mass": 70.0,
+      "muscle percent": 40.0,
+      "fat percent": 17.0,
+      "water percent": 50.0,
+      "water glasses": 12
+    }
+  ],
+  "name": "Joel"
+}

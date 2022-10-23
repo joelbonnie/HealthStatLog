@@ -1,0 +1,11 @@
+{
+    "name": "Joel",
+    "health logs": [{
+        "date": "03102022",
+        "water percent": 50,
+        "body mass": 80,
+        "water glasses": 10,
+        "fat percent": 22,
+        "muscle percent": 40
+    }]
+}

@@ -1,12 +1,15 @@
 package model;
 
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.text.DecimalFormat;
 
 
 
 // Class representing daily health statistics log
-public class HealthLog {
+public class HealthLog implements Writable {
 
     private String date;
     private double bodyMass;
@@ -93,4 +96,15 @@ public class HealthLog {
     }
 
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("date",date);
+        jsonObj.put("body mass",bodyMass);
+        jsonObj.put("muscle percent",musclePercentage);
+        jsonObj.put("fat percent",fatPercentage);
+        jsonObj.put("water percent", waterPercentage);
+        jsonObj.put("water glasses",waterGlassesDrank);
+        return jsonObj;
+    }
 }

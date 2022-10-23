@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -69,6 +71,33 @@ public class HealthProgressTest {
                 secondLog.getWaterPercentage());
         assertEquals(testHealthProgress.getHealthLogList().get(1).getWaterGlassesDrank(),
                 secondLog.getWaterGlassesDrank());
+    }
+
+    @Test
+    public void testHealthLogToJson(){
+        JSONArray jsonArray = testHealthProgress.healthLogToJson();
+        JSONObject jsonObj = jsonArray.getJSONObject(0);
+        assertEquals("01102022", jsonObj.getString("date"));
+        assertEquals(80.0,jsonObj.getDouble("body mass"));
+        assertEquals(40.0,jsonObj.getDouble("muscle percent"));
+        assertEquals(20.0,jsonObj.getDouble("fat percent"));
+        assertEquals(50.0,jsonObj.getDouble("water percent"));
+        assertEquals(10,jsonObj.getInt("water glasses"));
+    }
+
+    @Test
+    public void testToJson(){
+        JSONObject jsonObjHealthProgress = testHealthProgress.toJson();
+        assertEquals("Joel",jsonObjHealthProgress.getString("name"));
+
+        JSONArray jsonArrayHealthLogs = jsonObjHealthProgress.getJSONArray("health logs");
+        JSONObject jsonObjHealthLog = jsonArrayHealthLogs.getJSONObject(0);
+        assertEquals("01102022", jsonObjHealthLog.getString("date"));
+        assertEquals(80.0,jsonObjHealthLog.getDouble("body mass"));
+        assertEquals(40.0,jsonObjHealthLog.getDouble("muscle percent"));
+        assertEquals(20.0,jsonObjHealthLog.getDouble("fat percent"));
+        assertEquals(50.0,jsonObjHealthLog.getDouble("water percent"));
+        assertEquals(10,jsonObjHealthLog.getInt("water glasses"));
     }
 
 }

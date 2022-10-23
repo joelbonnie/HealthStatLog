@@ -1,5 +1,6 @@
 package model;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -71,4 +72,17 @@ class HealthLogTest {
 
 
     }
+
+    @Test
+    public void testToJson() {
+        JSONObject jsonObj = firstTestHealthLog.toJson();
+        assertEquals("03102022", jsonObj.getString("date"));
+        assertEquals(80.0,jsonObj.getDouble("body mass"));
+        assertEquals(40.0,jsonObj.getDouble("muscle percent"));
+        assertEquals(22.0,jsonObj.getDouble("fat percent"));
+        assertEquals(50.0,jsonObj.getDouble("water percent"));
+        assertEquals(10,jsonObj.getInt("water glasses"));
+
+    }
 }
+

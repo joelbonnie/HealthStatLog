@@ -3,13 +3,20 @@ package ui;
 
 import model.HealthLog;
 import model.HealthProgress;
+import persistence.JsonRead;
+import persistence.JsonWrite;
 
+import java.io.FileNotFoundException;
 import java.util.Scanner;
+
 
 // command line interface for running the logger
 public class LoggerApp {
+    private static final String JSON_STORE = "./data/healthProgress.json";
     private HealthProgress progressList;
     private Scanner scanner;
+    private JsonRead jsonRead;
+    private JsonWrite jsonWrite;
 
     // EFFECTS: creates a LoggerApp instance and
     public LoggerApp() {
@@ -23,9 +30,13 @@ public class LoggerApp {
         String inputGiven;
         progressList = new HealthProgress("Joel");
 
+        jsonRead = new JsonRead(JSON_STORE);
+        jsonWrite = new JsonWrite(JSON_STORE);
+
         scanner = new Scanner(System.in);
         scanner.useDelimiter("\n");
 
+        System.out.println("\n WARNING: ");
         while (continueProgram) {
             displayInputOptions();
             inputGiven = scanner.next();
@@ -34,9 +45,8 @@ public class LoggerApp {
                 continueProgram = false;
             } else {
                 processInput(inputGiven);
-                System.out.println("Do you want to continue? (Y/N)");
+                System.out.println("Do you want to continue? (type N to quit/any character to continue)");
                 String checkContinueCondition = scanner.next();
-                checkContinueCondition = checkContinueCondition.toUpperCase();
                 if (checkContinueCondition.equals("N")) {
                     continueProgram = false;
                 }
@@ -65,6 +75,10 @@ public class LoggerApp {
             calculateFatPercentProgress();
         } else if (inputGiven.equals("8")) {
             calculateWaterPercentProgress();
+        } else if (inputGiven.equals("L")) {
+            loadData();
+        } else if (inputGiven.equals("S")) {
+            saveData();
         }
 
     }
@@ -82,6 +96,8 @@ public class LoggerApp {
         System.out.println("*   [6]   ->  See how muscle percentage has varied over the past month                 *");
         System.out.println("*   [7]   ->  See how fat percentage has varied over the past month                    *");
         System.out.println("*   [8]   ->  See how water percentage has varied over the past month                  *");
+        System.out.println("*   [L]   ->  Load                                                                     *");
+        System.out.println("*   [S]   ->  Save                                                                     *");
         System.out.println("*   [Q]   ->  Quit                                                                     *");
         System.out.println("****************************************************************************************");
         System.out.println("Your option: ");
@@ -221,6 +237,27 @@ public class LoggerApp {
                 currentProgress = progressList.getHealthLogList().get(healthLogCounter).getWaterPercentage();
             }
             System.out.println(currentProgress);
+        }
+    }
+
+    public void loadData() {
+        try {
+            progressList = jsonRead.read();
+            System.out.println("Health Logs for " + progressList.getName() + " have been loaded!");
+        } catch (Exception e) {
+            System.out.println("Error loading logs from file" + JSON_STORE);
+        }
+    }
+
+    public void saveData() {
+        try {
+            jsonWrite.openWriter();
+            jsonWrite.write(progressList);
+            jsonWrite.closeWriter();
+            System.out.println("Health Logs for " + progressList.getName() + " have been saved!");
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Error writing to file" + JSON_STORE);
         }
     }
 

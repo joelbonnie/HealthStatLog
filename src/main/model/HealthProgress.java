@@ -1,11 +1,15 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 // collection of logged health statistics (List of HeathLogs)
-public class HealthProgress {
+public class HealthProgress implements Writable {
 
     private String name;
     private ArrayList<HealthLog> healthLogList;
@@ -36,4 +40,19 @@ public class HealthProgress {
         return name;
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("name",name);
+        jsonObj.put("health logs",healthLogToJson());
+        return jsonObj;
+    }
+
+    public JSONArray healthLogToJson() {
+        JSONArray healthLogsJson = new JSONArray();
+        for (HealthLog currentLog: healthLogList) {
+            healthLogsJson.put(currentLog.toJson());
+        }
+        return healthLogsJson;
+    }
 }
