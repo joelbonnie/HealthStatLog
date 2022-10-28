@@ -76,6 +76,8 @@ public class LoggerApp {
             loadData();
         } else if (inputGiven.equals("S")) {
             saveData();
+        } else {
+            System.out.println("Invalid Input!");
         }
 
     }
