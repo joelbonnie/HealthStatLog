@@ -18,10 +18,14 @@ public class GraphicalUserInterface extends JFrame {
     private JsonWrite jsonWrite;
 
     private JPanel greetPanel;
-    private JPanel optionPanel;
+    private JPanel persistencePanel;
+    private JPanel calculationPanel;
+    private JPanel logPanel;
 
     private JButton loadButton;
     private JButton saveButton;
+    private JButton graphButton;
+    private JButton calculateButton;
 
     private JScrollPane statusPane;
     private JList<String> statusList;
@@ -38,8 +42,9 @@ public class GraphicalUserInterface extends JFrame {
 
         createMainFrame();
         insertGreetPanel();
-        insertOptionPanel();
+        insertPersistencePanel();
         insertStatusPanel();
+        insertCalculationPanel();
 
         this.setVisible(true);
 
@@ -87,35 +92,35 @@ public class GraphicalUserInterface extends JFrame {
     }
 
     // MODIFIES: this
-    // EFFECTS: inserts an option panel to the frame
-    public void insertOptionPanel() {
-        optionPanel = new JPanel();
-        optionPanel.setLayout(null);
-        optionPanel.setBounds(10,120,400,300);
-        optionPanel.setBackground(new Color(0x34495E));
-        this.add(optionPanel);
+    // EFFECTS: inserts a persistence panel to the frame
+    public void insertPersistencePanel() {
+        persistencePanel = new JPanel();
+        persistencePanel.setLayout(null);
+        persistencePanel.setBounds(10,120,190,200);
+        persistencePanel.setBackground(new Color(0xFFFDD0));
+        this.add(persistencePanel);
 
         loadButton = new JButton();
         loadButton.addActionListener(e -> loadData());
-        loadButton.setBounds(20,20,150,75);
+        loadButton.setBounds(20,20,150,70);
         loadButton.setText("Load");
         loadButton.setFocusable(false);
         loadButton.setBackground(new Color(0xbdc3c7));
 
         saveButton = new JButton();
         saveButton.addActionListener(e -> saveData());
-        saveButton.setBounds(20,110,150,75);
+        saveButton.setBounds(20,110,150,70);
         saveButton.setText("Save");
         saveButton.setFocusable(false);
         saveButton.setBackground(new Color(0xbdc3c7));
 
-        optionPanel.add(loadButton);
-        optionPanel.add(saveButton);
+        persistencePanel.add(loadButton);
+        persistencePanel.add(saveButton);
 
     }
 
     // MODIFIES: this
-    // EFFECTS: inserts an option panel to the frame
+    // EFFECTS: inserts a status panel to the frame
     public void insertStatusPanel() {
         defaultListModel = new DefaultListModel<>();
         defaultListModel.addElement("Program Status:");
@@ -131,6 +136,42 @@ public class GraphicalUserInterface extends JFrame {
         this.getContentPane().add(statusPane);
 
     }
+
+    // MODIFIES: this
+    // EFFECTS: inserts a panel to add a HealthLog or view existing HealthLogs
+    public void insertLogPanel() {
+
+    }
+
+
+    // MODIFIES: this
+    // EFFECTS: inserts a panel for creating progress graphs and calculating BMI
+    public void insertCalculationPanel() {
+        calculationPanel = new JPanel();
+        calculationPanel.setLayout(null);
+        calculationPanel.setBounds(250,120,190,200);
+        this.add(calculationPanel);
+
+        graphButton = new JButton();
+        graphButton.addActionListener(e -> loadData());
+        graphButton.setBounds(20,20,150,70);
+        graphButton.setText("Create Graph");
+        graphButton.setFocusable(false);
+        graphButton.setBackground(new Color(0xbdc3c7));
+
+        calculateButton = new JButton();
+        calculateButton.addActionListener(e -> saveData());
+        calculateButton.setBounds(20,110,150,70);
+        calculateButton.setText("Calculate BMI");
+        calculateButton.setFocusable(false);
+        calculateButton.setBackground(new Color(0xbdc3c7));
+
+        calculationPanel.add(graphButton);
+        calculationPanel.add(calculateButton);
+
+    }
+
+
 
     // MODIFIES: this
     // EFFECTS: loads HealthProgress object from JSON file
@@ -156,6 +197,13 @@ public class GraphicalUserInterface extends JFrame {
         } catch (FileNotFoundException e) {
             defaultListModel.addElement(" [OUT] <ERROR> Error writing to file");
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: opens a new window to add a HealthLog and updates progressList
+    public void addNewHealthLog() {
+        AddHealthLogInterface newLogAdder = new AddHealthLogInterface(progressList);
+        this.progressList = newLogAdder.getProgressList();
     }
 
 
