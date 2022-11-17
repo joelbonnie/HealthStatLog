@@ -30,7 +30,7 @@ public class HealthProgress implements Writable {
 
 
     // EFFECTS: returns the list of the Health Logs added to the HealthProgress object
-    public List<HealthLog> getHealthLogList() {
+    public ArrayList<HealthLog> getHealthLogList() {
         return healthLogList;
     }
 

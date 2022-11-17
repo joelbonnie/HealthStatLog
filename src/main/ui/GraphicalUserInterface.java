@@ -1,5 +1,6 @@
 package ui;
 
+import model.HealthLog;
 import model.HealthProgress;
 import persistence.JsonRead;
 import persistence.JsonWrite;
@@ -8,12 +9,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
 
+/*
+REFERENCES:
 
+ */
 
-// Class for the Graphical User Interface
-public class GraphicalUserInterface extends JFrame {
+// Class for the Main Graphical User Interface window
+public class GraphicalUserInterface {
+    private JFrame mainFrame;
+
     private static final String JSON_STORE = "./data/healthProgress.json";
-    private HealthProgress progressList;
+    protected HealthProgress progressList;
+
     private JsonRead jsonRead;
     private JsonWrite jsonWrite;
 
@@ -21,11 +28,28 @@ public class GraphicalUserInterface extends JFrame {
     private JPanel persistencePanel;
     private JPanel calculationPanel;
     private JPanel logPanel;
+    private JPanel addNewLogPanel;
 
     private JButton loadButton;
     private JButton saveButton;
     private JButton graphButton;
     private JButton calculateButton;
+    private JButton viewLogsButton;
+    private JButton addLogButton;
+
+    private JTextField dateField;
+    private JTextField bodyMassField;
+    private JTextField musclePercentageField;
+    private JTextField fatPercentageField;
+    private JTextField waterPercentageField;
+    private JTextField waterGlassesDrankField;
+
+    private JLabel dateLabel;
+    private JLabel bodyMassLabel;
+    private JLabel musclePercentageLabel;
+    private JLabel fatPercentageLabel;
+    private JLabel waterPercentageLabel;
+    private JLabel waterGlassesDrankLabel;
 
     private JScrollPane statusPane;
     private JList<String> statusList;
@@ -36,6 +60,8 @@ public class GraphicalUserInterface extends JFrame {
     // MODIFIES: this
     // EFFECTS: creates a GraphicalUserInterface object
     public GraphicalUserInterface() {
+        mainFrame = new JFrame();
+
         progressList = new HealthProgress("Joel");
         jsonRead = new JsonRead(JSON_STORE);
         jsonWrite = new JsonWrite(JSON_STORE);
@@ -45,8 +71,10 @@ public class GraphicalUserInterface extends JFrame {
         insertPersistencePanel();
         insertStatusPanel();
         insertCalculationPanel();
+        insertViewLogPanel();
+        insertAddNewLogPanel();
 
-        this.setVisible(true);
+        mainFrame.setVisible(true);
 
 
 
@@ -55,12 +83,12 @@ public class GraphicalUserInterface extends JFrame {
     // MODIFIES: this
     // EFFECTS: creates the frame and sets values
     public void createMainFrame() {
-        this.setTitle("Health Stat Logger");
-        this.setSize(900,500);
-        this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLayout(null);
-        this.getContentPane().setBackground(new Color(0x34495E));
+        mainFrame.setTitle("Health Stat Logger");
+        mainFrame.setSize(1200,500);
+        mainFrame.setResizable(false);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setLayout(null);
+        mainFrame.getContentPane().setBackground(new Color(0x34495E));
     }
 
 
@@ -71,7 +99,7 @@ public class GraphicalUserInterface extends JFrame {
         greetPanel.setLayout(null);
         greetPanel.setBounds(20,10,400,100);
         greetPanel.setBackground(new Color(0x34495E));
-        this.add(greetPanel);
+        mainFrame.add(greetPanel);
 
         JLabel greetLabel = new JLabel();
         greetLabel.setText("Welcome, Joel!");
@@ -98,7 +126,7 @@ public class GraphicalUserInterface extends JFrame {
         persistencePanel.setLayout(null);
         persistencePanel.setBounds(10,120,190,200);
         persistencePanel.setBackground(new Color(0xFFFDD0));
-        this.add(persistencePanel);
+        mainFrame.add(persistencePanel);
 
         loadButton = new JButton();
         loadButton.addActionListener(e -> loadData());
@@ -128,19 +156,104 @@ public class GraphicalUserInterface extends JFrame {
         statusList = new JList<>(defaultListModel);
 
         statusPane = new JScrollPane(statusList);
-        statusPane.setBounds(550,20,300,400);
+        statusPane.setBounds(850,20,300,420);
         statusPane.setBackground(new Color(0xecf0f1));
         statusPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         statusPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        this.getContentPane().add(statusPane);
+        mainFrame.getContentPane().add(statusPane);
 
     }
 
     // MODIFIES: this
-    // EFFECTS: inserts a panel to add a HealthLog or view existing HealthLogs
-    public void insertLogPanel() {
+    // EFFECTS: inserts a panel to view existing HealthLogs
+    public void insertViewLogPanel() {
+        logPanel = new JPanel();
+        logPanel.setLayout(null);
+        logPanel.setBounds(10,350,440,120);
+        logPanel.setBackground(new Color(0x34495E));
+        mainFrame.add(logPanel);
 
+        viewLogsButton = new JButton();
+        viewLogsButton.addActionListener(e -> viewHealthLogs());
+        viewLogsButton.setBounds(130,20,175,80);
+        viewLogsButton.setText("View Logs");
+        viewLogsButton.setFocusable(false);
+        viewLogsButton.setBackground(new Color(0x74b9ff));
+
+        logPanel.add(viewLogsButton);
+
+    }
+
+    // MODIFIES: this
+    // EFFECTS: inserts a panel for adding a new log
+    public void insertAddNewLogPanel() {
+        addNewLogPanel = new JPanel();
+        addNewLogPanel.setLayout(null);
+        addNewLogPanel.setBounds(480,20,350,420);
+        mainFrame.add(addNewLogPanel);
+
+        createFields();
+        createLabels();
+
+        addLogButton = new JButton();
+        addLogButton.addActionListener(e -> analysisLogInputs());
+        addLogButton.setBounds(100,340,150,50);
+        addLogButton.setText("Add Log");
+        addLogButton.setFocusable(false);
+        addLogButton.setBackground(new Color(0x74b9ff));
+
+        addNewLogPanel.add(addLogButton);
+
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates JFields for adding a new HealthLog and adds to the JPanel
+    public void createFields() {
+        dateField = new JTextField();
+        dateField.setBounds(180,30,150,30);
+        bodyMassField = new JTextField();
+        bodyMassField.setBounds(180,80,150,30);
+        musclePercentageField = new JTextField();
+        musclePercentageField.setBounds(180,130,150,30);
+        fatPercentageField = new JTextField();
+        fatPercentageField.setBounds(180,180,150,30);
+        waterPercentageField = new JTextField();
+        waterPercentageField.setBounds(180,230,150,30);
+        waterGlassesDrankField = new JTextField();
+        waterGlassesDrankField.setBounds(180,280,150,30);
+
+        addNewLogPanel.add(dateField);
+        addNewLogPanel.add(bodyMassField);
+        addNewLogPanel.add(musclePercentageField);
+        addNewLogPanel.add(fatPercentageField);
+        addNewLogPanel.add(waterPercentageField);
+        addNewLogPanel.add(waterGlassesDrankField);
+
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates JLabels for adding a new HealthLog and adds to the JPanel
+    public void createLabels() {
+        dateLabel = new JLabel("Date (DDMMYYYY):");
+        dateLabel.setBounds(30,30,150,30);
+        bodyMassLabel = new JLabel("Body Mass:");
+        bodyMassLabel.setBounds(30,80,150,30);
+        musclePercentageLabel = new JLabel("Muscle Percent:");
+        musclePercentageLabel.setBounds(30,130,150,30);
+        fatPercentageLabel = new JLabel("Fat Percent:");
+        fatPercentageLabel.setBounds(30,180,150,30);
+        waterPercentageLabel = new JLabel("Water Percent:");
+        waterPercentageLabel.setBounds(30,230,150,30);
+        waterGlassesDrankLabel = new JLabel("Water Glasses:");
+        waterGlassesDrankLabel.setBounds(30,280,150,30);
+
+        addNewLogPanel.add(dateLabel);
+        addNewLogPanel.add(bodyMassLabel);
+        addNewLogPanel.add(musclePercentageLabel);
+        addNewLogPanel.add(fatPercentageLabel);
+        addNewLogPanel.add(waterPercentageLabel);
+        addNewLogPanel.add(waterGlassesDrankLabel);
     }
 
 
@@ -150,7 +263,7 @@ public class GraphicalUserInterface extends JFrame {
         calculationPanel = new JPanel();
         calculationPanel.setLayout(null);
         calculationPanel.setBounds(250,120,190,200);
-        this.add(calculationPanel);
+        mainFrame.add(calculationPanel);
 
         graphButton = new JButton();
         graphButton.addActionListener(e -> loadData());
@@ -160,7 +273,7 @@ public class GraphicalUserInterface extends JFrame {
         graphButton.setBackground(new Color(0xbdc3c7));
 
         calculateButton = new JButton();
-        calculateButton.addActionListener(e -> saveData());
+        calculateButton.addActionListener(e -> calculateBMI());
         calculateButton.setBounds(20,110,150,70);
         calculateButton.setText("Calculate BMI");
         calculateButton.setFocusable(false);
@@ -185,6 +298,7 @@ public class GraphicalUserInterface extends JFrame {
         }
     }
 
+    // MODIFIES: this
     // EFFECTS: saves the current logs in progressList to the JSON file
     public void saveData() {
         try {
@@ -199,12 +313,71 @@ public class GraphicalUserInterface extends JFrame {
         }
     }
 
+
     // MODIFIES: this
-    // EFFECTS: opens a new window to add a HealthLog and updates progressList
-    public void addNewHealthLog() {
-        AddHealthLogInterface newLogAdder = new AddHealthLogInterface(progressList);
-        this.progressList = newLogAdder.getProgressList();
+    // EFFECTS: opens a new window to view current HealthLogs
+    public void viewHealthLogs() {
+        defaultListModel.addElement(" [IN] Open View Health Log Window");
+        ViewHealthLogWindow newLogViewer = new ViewHealthLogWindow(progressList);
+        defaultListModel.addElement(" [OUT] Opened View Health Log Window");
+
     }
+
+    // MODIFIES: this
+    // EFFECTS: opens a new window to view calculate BMI
+    public void calculateBMI() {
+        defaultListModel.addElement(" [IN] Open Calculate BMI Window");
+        CalculateBodyMassIndexInterface calculateWindow  = new CalculateBodyMassIndexInterface(progressList);
+        defaultListModel.addElement(" [OUT] Opened Calculate BMI Window");
+
+    }
+
+    // MODIFIES: this
+    // EFFECTS: checks inputs and adds the new HealthLog
+    public void analysisLogInputs() {
+        defaultListModel.addElement(" [IN] Inputted values");
+        String inputtedDate = dateField.getText();
+        String inputtedBodyMass = bodyMassField.getText();
+        String inputtedMusclePercent = musclePercentageField.getText();
+        String inputtedFatPercent = fatPercentageField.getText();
+        String inputtedWaterPercent = waterPercentageField.getText();
+        String inputtedWaterGlasses = waterGlassesDrankField.getText();
+        addLog(inputtedDate,inputtedBodyMass,inputtedMusclePercent,inputtedFatPercent,
+                inputtedWaterPercent,inputtedWaterGlasses);
+
+    }
+
+    // MODIFIES: this
+    // EFFECTS: tries to parse numbers from inputs and add HealthLog
+    public void addLog(String dateString,String bodyMassString,String musclePercentString,
+                       String fatPercentString,String waterPercentString,String waterGlassesString) {
+        double bodyMass;
+        double musclePercent;
+        double fatPercent;
+        double waterPercent;
+        int waterGlasses;
+        try {
+            if (dateString.equals("")) {
+                throw new NullDateException();
+            }
+            bodyMass = Double.parseDouble(bodyMassString);
+            musclePercent = Double.parseDouble(musclePercentString);
+            fatPercent = Double.parseDouble(fatPercentString);
+            waterPercent = Double.parseDouble(waterPercentString);
+            waterGlasses = Integer.parseInt(waterGlassesString);
+            HealthLog newLog = new HealthLog(dateString,bodyMass,musclePercent,fatPercent,waterPercent,waterGlasses);
+            progressList.addDailyLog(newLog);
+            defaultListModel.addElement(" [OUT] Successfully added HealthLog!");
+
+        } catch (NumberFormatException e) {
+            defaultListModel.addElement(" [OUT] <ERROR> Error Parsing Number from Input");
+        } catch (NullDateException e) {
+            defaultListModel.addElement(" [OUT] <ERROR> Date input is empty");
+        }
+
+    }
+
+
 
 
 

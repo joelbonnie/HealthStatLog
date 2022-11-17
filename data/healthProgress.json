@@ -1,4 +1,69 @@
 {
     "name": "Joel",
-    "health logs": []
+    "health logs": [
+        {
+            "date": "01012022",
+            "water percent": 60,
+            "body mass": 80,
+            "water glasses": 10,
+            "fat percent": 20,
+            "muscle percent": 70
+        },
+        {
+            "date": "02012022",
+            "water percent": 60.1,
+            "body mass": 80.3,
+            "water glasses": 11,
+            "fat percent": 20.7,
+            "muscle percent": 70.1
+        },
+        {
+            "date": "03012022",
+            "water percent": 60.2,
+            "body mass": 80.5,
+            "water glasses": 11,
+            "fat percent": 20,
+            "muscle percent": 72
+        },
+        {
+            "date": "04012022",
+            "water percent": 60.3,
+            "body mass": 79,
+            "water glasses": 9,
+            "fat percent": 19.7,
+            "muscle percent": 72
+        },
+        {
+            "date": "05012022",
+            "water percent": 60.9,
+            "body mass": 78.9,
+            "water glasses": 11,
+            "fat percent": 19.6,
+            "muscle percent": 72.2
+        },
+        {
+            "date": "06012022",
+            "water percent": 60.1,
+            "body mass": 78.5,
+            "water glasses": 10,
+            "fat percent": 19.3,
+            "muscle percent": 72
+        },
+        {
+            "date": "07012022",
+            "water percent": 60.2,
+            "body mass": 78.9,
+            "water glasses": 11,
+            "fat percent": 19.7,
+            "muscle percent": 73
+        },
+        {
+            "date": "08012022",
+            "water percent": 60.1,
+            "body mass": 78,
+            "water glasses": 10,
+            "fat percent": 19,
+            "muscle percent": 73
+        }
+    ]
 }

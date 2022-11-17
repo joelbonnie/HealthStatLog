@@ -20,7 +20,6 @@ public class HealthLog implements Writable {
 
     /*
        REQUIRES:
-                 date in format DDMMYYYY and should not already be present
                  non-zero body mass in kg
                  non-zero muscle percentage in percent
                  non-zero fat percentage in percent
