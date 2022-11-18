@@ -34,6 +34,11 @@ public class HealthProgress implements Writable {
         return healthLogList;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the healthLogList as the parameter provided.
+    public void setHealthLogList(ArrayList<HealthLog> healthLogList) {
+        this.healthLogList = healthLogList;
+    }
 
     // EFFECTS: returns the name provided in the HealthProgress Object
     public String getName() {

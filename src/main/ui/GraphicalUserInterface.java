@@ -8,10 +8,15 @@ import persistence.JsonWrite;
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 /*
 REFERENCES:
+ListDemo - Oracle
+https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html
 
+Java GUI: Full Course (Youtube Video)
+https://www.youtube.com/watch?v=Kmgo00avvEw&t=5474s
  */
 
 // Class for the Main Graphical User Interface window
@@ -29,6 +34,7 @@ public class GraphicalUserInterface {
     private JPanel calculationPanel;
     private JPanel logPanel;
     private JPanel addNewLogPanel;
+    private JPanel deleteLogPanel;
 
     private JButton loadButton;
     private JButton saveButton;
@@ -36,6 +42,7 @@ public class GraphicalUserInterface {
     private JButton calculateButton;
     private JButton viewLogsButton;
     private JButton addLogButton;
+    private JButton deleteLogButton;
 
     private JTextField dateField;
     private JTextField bodyMassField;
@@ -43,6 +50,7 @@ public class GraphicalUserInterface {
     private JTextField fatPercentageField;
     private JTextField waterPercentageField;
     private JTextField waterGlassesDrankField;
+    private JTextField deleteDateField;
 
     private JLabel dateLabel;
     private JLabel bodyMassLabel;
@@ -72,6 +80,7 @@ public class GraphicalUserInterface {
         insertStatusPanel();
         insertCalculationPanel();
         insertViewLogPanel();
+        insertDeleteLogPanel();
         insertAddNewLogPanel();
 
         mainFrame.setVisible(true);
@@ -170,18 +179,46 @@ public class GraphicalUserInterface {
     public void insertViewLogPanel() {
         logPanel = new JPanel();
         logPanel.setLayout(null);
-        logPanel.setBounds(10,350,440,120);
+        logPanel.setBounds(10,350,190,120);
         logPanel.setBackground(new Color(0x34495E));
         mainFrame.add(logPanel);
 
         viewLogsButton = new JButton();
         viewLogsButton.addActionListener(e -> viewHealthLogs());
-        viewLogsButton.setBounds(130,20,175,80);
+        viewLogsButton.setBounds(10,0,175,80);
         viewLogsButton.setText("View Logs");
         viewLogsButton.setFocusable(false);
         viewLogsButton.setBackground(new Color(0x74b9ff));
 
         logPanel.add(viewLogsButton);
+
+    }
+
+
+    // MODIFIES: this
+    // EFFECTS: inserts a panel to delete an added HealthLog
+    public void insertDeleteLogPanel() {
+        deleteLogPanel = new JPanel();
+        deleteLogPanel.setLayout(null);
+        deleteLogPanel.setBounds(250,300,190,140);
+        mainFrame.add(deleteLogPanel);
+
+        JLabel deleteDateLabel = new JLabel("Date to delete:");
+        deleteDateLabel.setBounds(15,5,150,30);
+        deleteLogPanel.add(deleteDateLabel);
+
+        deleteDateField = new JTextField();
+        deleteDateField.setBounds(15,40,160,30);
+        deleteLogPanel.add(deleteDateField);
+
+        deleteLogButton = new JButton();
+        deleteLogButton.addActionListener(e -> deleteLog());
+        deleteLogButton.setBounds(15,90,160,40);
+        deleteLogButton.setText("Delete Log");
+        deleteLogButton.setFocusable(false);
+        deleteLogButton.setBackground(new Color(0x74b9ff));
+
+        deleteLogPanel.add(deleteLogButton);
 
     }
 
@@ -262,19 +299,19 @@ public class GraphicalUserInterface {
     public void insertCalculationPanel() {
         calculationPanel = new JPanel();
         calculationPanel.setLayout(null);
-        calculationPanel.setBounds(250,120,190,200);
+        calculationPanel.setBounds(250,120,190,160);
         mainFrame.add(calculationPanel);
 
         graphButton = new JButton();
-        graphButton.addActionListener(e -> loadData());
-        graphButton.setBounds(20,20,150,70);
+        graphButton.addActionListener(e -> createGraphs());
+        graphButton.setBounds(20,20,150,50);
         graphButton.setText("Create Graph");
         graphButton.setFocusable(false);
         graphButton.setBackground(new Color(0xbdc3c7));
 
         calculateButton = new JButton();
         calculateButton.addActionListener(e -> calculateBMI());
-        calculateButton.setBounds(20,110,150,70);
+        calculateButton.setBounds(20,90,150,50);
         calculateButton.setText("Calculate BMI");
         calculateButton.setFocusable(false);
         calculateButton.setBackground(new Color(0xbdc3c7));
@@ -376,6 +413,45 @@ public class GraphicalUserInterface {
         }
 
     }
+
+    // MODIFIES: this
+    // EFFECTS: tries to parse date from input and deletes HealthLog corresponding to the given date
+    public void deleteLog() {
+        defaultListModel.addElement(" [IN] Inputted date to delete");
+        String inputtedDate = deleteDateField.getText();
+        if (inputtedDate.equals("")) {
+            defaultListModel.addElement(" [OUT] <ERROR> Date input is empty");
+        } else {
+            ArrayList<HealthLog> currentLogs = progressList.getHealthLogList();
+            int presentFlag = 0;
+            int logCounter = 0;
+            while (logCounter < currentLogs.size()) {
+                if (currentLogs.get(logCounter).getDate().equals(inputtedDate)) {
+                    currentLogs.remove(logCounter);
+                    presentFlag = 1;
+                } else {
+                    logCounter++;
+                }
+            }
+            progressList.setHealthLogList(currentLogs);
+            if (presentFlag == 1) {
+                defaultListModel.addElement(" [OUT] Log with inputted date has been removed");
+            } else {
+                defaultListModel.addElement(" [OUT] <ERROR> Given date not found");
+            }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: opens a new window to view create grphs
+    public void createGraphs() {
+        defaultListModel.addElement(" [IN] Open Create Graph Window");
+        GraphInterface graphWindow  = new GraphInterface(progressList);
+        defaultListModel.addElement(" [OUT] Opened Create Graph Window");
+
+    }
+
+
 
 
 

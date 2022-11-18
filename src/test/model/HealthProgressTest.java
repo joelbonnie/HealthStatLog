@@ -5,6 +5,8 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HealthProgressTest {
@@ -72,6 +74,27 @@ public class HealthProgressTest {
         assertEquals(testHealthProgress.getHealthLogList().get(1).getWaterGlassesDrank(),
                 secondLog.getWaterGlassesDrank());
     }
+
+    @Test
+    public void testSetHealthLogList() {
+        ArrayList<HealthLog> healthLogList = new ArrayList<>();
+        healthLogList.add(firstLog);
+        testHealthProgress.setHealthLogList(healthLogList);
+
+        assertEquals(testHealthProgress.getHealthLogList().get(0).getDate(), firstLog.getDate());
+        assertEquals(testHealthProgress.getHealthLogList().get(0).getBodyMass(), firstLog.getBodyMass());
+        assertEquals(testHealthProgress.getHealthLogList().get(0).getMusclePercentage(),
+                firstLog.getMusclePercentage());
+        assertEquals(testHealthProgress.getHealthLogList().get(0).getFatPercentage(),
+                firstLog.getFatPercentage());
+        assertEquals(testHealthProgress.getHealthLogList().get(0).getWaterPercentage(),
+                firstLog.getWaterPercentage());
+        assertEquals(testHealthProgress.getHealthLogList().get(0).getWaterGlassesDrank(),
+                firstLog.getWaterGlassesDrank());
+
+
+    }
+
 
     @Test
     public void testHealthLogToJson(){
