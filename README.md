@@ -41,7 +41,7 @@ body muscle and body water percentage has varied over the past 30 days.
 - You can generate the first required event related to adding Xs to a Y by inputting values in the corresponding 
 text-boxes and clicking the "Add Log" button to add the new HealthLog.
 - You can generate the second required event related to adding Xs to a Y by inputting a date value and clicking the 
-Delete Log' button to delete a particular log.
+"Delete Log" button to delete a particular log.
 - You can locate my visual component by clicking the "Create Graph" button and selecting which graph
  to display.
 - You can save the state of my application by clicking the "Save" button.
