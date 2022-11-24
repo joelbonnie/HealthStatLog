@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 
 // collection of logged health statistics (List of HeathLogs)
@@ -28,6 +28,37 @@ public class HealthProgress implements Writable {
         healthLogList.add(currentLog);
     }
 
+
+    // MODIFIES: this
+    // EFFECTS: if addEvent is true, adds a health log to the HealthProgress list
+    //          and adds an Event stating that a new health log has been added
+    //          else adds the health log to the HealthProgress list
+    public void addDailyLog(HealthLog currentLog, Boolean addEvent) {
+        if (addEvent) {
+            EventLog.getInstance().logEvent(new Event("New Health Log Added!"));
+        }
+        healthLogList.add(currentLog);
+    }
+
+    // REQUIRES: listIndex not out of bounds
+    // MODIFIES: this
+    // EFFECTS: removes the daily log corresponding to the array index provided
+    //          adds an Event stating that the specified health log has been removed.
+    public void removeDailyLog(int listIndex) {
+        EventLog.getInstance().logEvent(new Event("Specified Health Log Removed!"));
+        this.healthLogList.remove(listIndex);
+    }
+
+
+    // EFFECTS: if addEvent is true returns the list of the Health Logs added to the HealthProgress object
+    //          and adds an Event stating that health logs have been viewed
+    //          else just returns the list of HealthLogs added to the HealthProgress Object
+    public ArrayList<HealthLog> getHealthLogList(boolean addEvent) {
+        if (addEvent) {
+            EventLog.getInstance().logEvent(new Event("Health Logs Viewed!"));
+        }
+        return healthLogList;
+    }
 
     // EFFECTS: returns the list of the Health Logs added to the HealthProgress object
     public ArrayList<HealthLog> getHealthLogList() {

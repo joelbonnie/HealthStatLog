@@ -46,3 +46,27 @@ text-boxes and clicking the "Add Log" button to add the new HealthLog.
  to display.
 - You can save the state of my application by clicking the "Save" button.
 - You can reload the state of my application by clicking the "Load" button
+
+## Phase 4: Task 2 
+### Example Output Log
+
+LOGS: <br>
+Wed Nov 23 17:19:56 PST 2022 <br>
+New Health Log Added! <br>
+Wed Nov 23 17:19:57 PST 2022 <br>
+Health Logs Viewed! <br>
+Wed Nov 23 17:20:04 PST 2022 <br>
+Specified Health Log Removed!
+
+This is the log produced when the following actions have occurred:
+- A Health Log is added
+- Then, Health Logs are viewed
+- Then, a Health Log is removed
+
+The three actions being logged are when we **add a new Health Log**,
+when we **remove an existing Health Log** or when we **view all the existing Health Logs**. 
+Since the logging action is done entirely in the model package, 
+if no logs are printed on exiting the program this indicates that 
+none of the three actions stated above has occurred.
+
+## Phase 4: Task 3

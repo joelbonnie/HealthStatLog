@@ -64,6 +64,14 @@
             "water glasses": 10,
             "fat percent": 19,
             "muscle percent": 73
+        },
+        {
+            "date": "09012022",
+            "water percent": 60,
+            "body mass": 78,
+            "water glasses": 10,
+            "fat percent": 19,
+            "muscle percent": 73
         }
     ]
 }

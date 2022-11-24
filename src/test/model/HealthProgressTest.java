@@ -17,6 +17,7 @@ public class HealthProgressTest {
 
     @BeforeEach
     public void runBefore() {
+        EventLog.getInstance().clear();
         testHealthProgress = new HealthProgress("Joel");
         HealthLog firstLog = new HealthLog("01102022", 80.0,
                 40.0, 20.0,
@@ -76,6 +77,125 @@ public class HealthProgressTest {
     }
 
     @Test
+    public void addDailyLogWithEvent() {
+        HealthLog secondLog = new HealthLog("02102022", 81.0,
+                41.0, 19.0,
+                50.0, 8);
+        testHealthProgress.addDailyLog(secondLog,true);
+
+        assertEquals(testHealthProgress.getHealthLogList().get(1).getDate(), secondLog.getDate());
+        assertEquals(testHealthProgress.getHealthLogList().get(1).getBodyMass(), secondLog.getBodyMass());
+        assertEquals(testHealthProgress.getHealthLogList().get(1).getMusclePercentage(),
+                secondLog.getMusclePercentage());
+        assertEquals(testHealthProgress.getHealthLogList().get(1).getFatPercentage(),
+                secondLog.getFatPercentage());
+        assertEquals(testHealthProgress.getHealthLogList().get(1).getWaterPercentage(),
+                secondLog.getWaterPercentage());
+        assertEquals(testHealthProgress.getHealthLogList().get(1).getWaterGlassesDrank(),
+                secondLog.getWaterGlassesDrank());
+
+        ArrayList<Event> events = new ArrayList<>();
+        for (Event currentEvent: EventLog.getInstance()) {
+            events.add(currentEvent);
+        }
+        assertEquals("Event log cleared.",events.get(0).getDescription());
+        assertEquals("New Health Log Added!", events.get(1).getDescription());
+    }
+
+    @Test
+    public void addDailyLogWithoutEvent() {
+        HealthLog secondLog = new HealthLog("02102022", 81.0,
+                41.0, 19.0,
+                50.0, 8);
+        testHealthProgress.addDailyLog(secondLog,false);
+
+        assertEquals(testHealthProgress.getHealthLogList().get(1).getDate(), secondLog.getDate());
+        assertEquals(testHealthProgress.getHealthLogList().get(1).getBodyMass(), secondLog.getBodyMass());
+        assertEquals(testHealthProgress.getHealthLogList().get(1).getMusclePercentage(),
+                secondLog.getMusclePercentage());
+        assertEquals(testHealthProgress.getHealthLogList().get(1).getFatPercentage(),
+                secondLog.getFatPercentage());
+        assertEquals(testHealthProgress.getHealthLogList().get(1).getWaterPercentage(),
+                secondLog.getWaterPercentage());
+        assertEquals(testHealthProgress.getHealthLogList().get(1).getWaterGlassesDrank(),
+                secondLog.getWaterGlassesDrank());
+    }
+
+
+
+    @Test
+    public void testRemoveDailyLogRemoveOneWithEvent() {
+        HealthLog secondLog = new HealthLog("02102022", 81.0,
+                41.0, 19.0,
+                50.0, 8);
+        testHealthProgress.addDailyLog(secondLog);
+        testHealthProgress.removeDailyLog(0);
+        assertEquals(1,testHealthProgress.getHealthLogList().size());
+        assertEquals(testHealthProgress.getHealthLogList().get(0).getDate(), secondLog.getDate());
+        assertEquals(testHealthProgress.getHealthLogList().get(0).getBodyMass(), secondLog.getBodyMass());
+        assertEquals(testHealthProgress.getHealthLogList().get(0).getMusclePercentage(),
+                secondLog.getMusclePercentage());
+        assertEquals(testHealthProgress.getHealthLogList().get(0).getFatPercentage(),
+                secondLog.getFatPercentage());
+        assertEquals(testHealthProgress.getHealthLogList().get(0).getWaterPercentage(),
+                secondLog.getWaterPercentage());
+        assertEquals(testHealthProgress.getHealthLogList().get(0).getWaterGlassesDrank(),
+                secondLog.getWaterGlassesDrank());
+
+        ArrayList<Event> events = new ArrayList<>();
+        for (Event currentEvent: EventLog.getInstance()) {
+            events.add(currentEvent);
+        }
+        assertEquals("Event log cleared.",events.get(0).getDescription());
+        assertEquals("Specified Health Log Removed!", events.get(1).getDescription());
+    }
+
+    @Test
+    public void testRemoveDailyLogRemoveMultipleWithEvent() {
+        HealthLog secondLog = new HealthLog("02102022", 81.0,
+                41.0, 19.0,
+                50.0, 8);
+        testHealthProgress.addDailyLog(secondLog);
+        testHealthProgress.removeDailyLog(0);
+        testHealthProgress.removeDailyLog(0);
+        assertEquals(0,testHealthProgress.getHealthLogList().size());
+
+        ArrayList<Event> events = new ArrayList<>();
+        for (Event currentEvent: EventLog.getInstance()) {
+            events.add(currentEvent);
+        }
+        assertEquals("Event log cleared.",events.get(0).getDescription());
+        assertEquals("Specified Health Log Removed!", events.get(1).getDescription());
+        assertEquals("Specified Health Log Removed!", events.get(2).getDescription());
+    }
+
+
+    @Test
+    public void testGetHealthLogListWithoutEvent() {
+        ArrayList<HealthLog> currentList = testHealthProgress.getHealthLogList(false);
+        ArrayList<Event> events = new ArrayList<>();
+        for (Event currentEvent: EventLog.getInstance()) {
+            events.add(currentEvent);
+        }
+        assertEquals(1, events.size());
+        assertEquals("Event log cleared.",events.get(0).getDescription());
+
+    }
+
+    @Test
+    public void testGetHealthLogListWithEvent() {
+        ArrayList<HealthLog> currentList = testHealthProgress.getHealthLogList(true);
+        ArrayList<Event> events = new ArrayList<>();
+        for (Event currentEvent: EventLog.getInstance()) {
+            events.add(currentEvent);
+        }
+        assertEquals(2, events.size());
+        assertEquals("Event log cleared.",events.get(0).getDescription());
+        assertEquals("Health Logs Viewed!",events.get(1).getDescription());
+
+    }
+
+    @Test
     public void testSetHealthLogList() {
         ArrayList<HealthLog> healthLogList = new ArrayList<>();
         healthLogList.add(firstLog);
@@ -94,6 +214,7 @@ public class HealthProgressTest {
 
 
     }
+
 
 
     @Test

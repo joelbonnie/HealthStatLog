@@ -54,7 +54,7 @@ public class ViewHealthLogWindow {
         defaultTableModel.addColumn("Water Glasses");
 
 
-        ArrayList<HealthLog> allLogs = progressList.getHealthLogList();
+        ArrayList<HealthLog> allLogs = progressList.getHealthLogList(true);
         for (HealthLog currentLog: allLogs) {
             defaultTableModel.addRow(new Object[]{currentLog.getDate(),currentLog.getBodyMass(),
                     currentLog.getMusclePercentage(),currentLog.getFatPercentage(),

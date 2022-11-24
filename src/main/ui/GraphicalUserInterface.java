@@ -2,11 +2,16 @@ package ui;
 
 import model.HealthLog;
 import model.HealthProgress;
+import model.Event;
+import model.EventLog;
 import persistence.JsonRead;
 import persistence.JsonWrite;
 
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -17,6 +22,10 @@ https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html
 
 Java GUI: Full Course (Youtube Video)
 https://www.youtube.com/watch?v=Kmgo00avvEw&t=5474s
+
+Implementing actions on closing window
+https://stackoverflow.com/questions/60516720/java-how-to-print-message-when-a-jframe-is-closed
+
  */
 
 // Class for the Main Graphical User Interface window
@@ -95,9 +104,19 @@ public class GraphicalUserInterface {
         mainFrame.setTitle("Health Stat Logger");
         mainFrame.setSize(1200,500);
         mainFrame.setResizable(false);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         mainFrame.setLayout(null);
         mainFrame.getContentPane().setBackground(new Color(0x34495E));
+        mainFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.out.println("LOGS:");
+                for (Event currentEvent: EventLog.getInstance()) {
+                    System.out.println(currentEvent.toString());
+                }
+                System.exit(0);
+            }
+        });
     }
 
 
@@ -403,7 +422,7 @@ public class GraphicalUserInterface {
             waterPercent = Double.parseDouble(waterPercentString);
             waterGlasses = Integer.parseInt(waterGlassesString);
             HealthLog newLog = new HealthLog(dateString,bodyMass,musclePercent,fatPercent,waterPercent,waterGlasses);
-            progressList.addDailyLog(newLog);
+            progressList.addDailyLog(newLog, true);
             defaultListModel.addElement(" [OUT] Successfully added HealthLog!");
 
         } catch (NumberFormatException e) {
@@ -427,13 +446,11 @@ public class GraphicalUserInterface {
             int logCounter = 0;
             while (logCounter < currentLogs.size()) {
                 if (currentLogs.get(logCounter).getDate().equals(inputtedDate)) {
-                    currentLogs.remove(logCounter);
+                    progressList.removeDailyLog(logCounter);
                     presentFlag = 1;
-                } else {
-                    logCounter++;
                 }
+                logCounter++;
             }
-            progressList.setHealthLogList(currentLogs);
             if (presentFlag == 1) {
                 defaultListModel.addElement(" [OUT] Log with inputted date has been removed");
             } else {
@@ -443,7 +460,7 @@ public class GraphicalUserInterface {
     }
 
     // MODIFIES: this
-    // EFFECTS: opens a new window to view create grphs
+    // EFFECTS: opens a new window to view create graphs
     public void createGraphs() {
         defaultListModel.addElement(" [IN] Open Create Graph Window");
         GraphInterface graphWindow  = new GraphInterface(progressList);
