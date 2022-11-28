@@ -70,3 +70,38 @@ if no logs are printed on exiting the program this indicates that
 none of the three actions stated above has occurred.
 
 ## Phase 4: Task 3
+
+In the current design, there are three main packages excluding the test package:
+
+- ***model***
+- ***persistence***
+- ***ui***
+
+there is also a fourth package ***graphs*** in ui.
+
+Currently, the **model** package (consisting of HealthLog, HealthProgress, Event and EventLog)
+performs the function of providing classes for representing Health Logs and a collection of 
+Health Logs, ie, HealthProgress. 
+It also provides the functionality for logging events. 
+
+The **persistence** package (consisting of JsonRead, JsonWrite and the interface Writeable) 
+provides functionality for saving and loading the current state of the application from a JSON file
+JsonRead parses the JSON file and creates a HealthProgress object whereas JsonWrite takes a HealthProgress
+object and writes it into the JSON file. Writeable is an Interface implemented by HealthLog and HealthProgress
+specifying a method to convert to JSON.
+
+The **ui** package (consisting of CalculateBodyMassIndexInterface, GraphicalUserInterface,GraphInterface,
+ViewHealthLogWindow, Main and the sub-package graphs) provides functionality for the GUI. **graphs** is a package 
+within ui which has classes for each type of graph. Main calls the GraphicalUserInterface, which in turns calls the 
+other classes in ui depending on what the user's input is. In the current implementation, each class represents a 
+different window or JFrame. GraphInterface, in particular, calls the different classes for graphs.
+
+### Potential refactoring 
+We can potentially perform the following refactoring tasks to improve our program
+
+- We can refactor out the different components in the GraphicalUserInterface class corresponding to different
+functionalities to maintain the single responsibility principle and improve cohesion. For example, refactoring out
+the frame to add a new HealthLog and the frame to remove an existing HealthLog.
+- We can extract a superclass from the different types of graphs and make each graph class extend the superclass. 
+Through this, we are reducing duplicated code, and the chances of unexpected errors while making a change in 
+another class. 
