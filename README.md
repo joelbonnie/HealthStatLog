@@ -102,6 +102,9 @@ We can potentially perform the following refactoring tasks to improve our progra
 - We can refactor out the different components in the GraphicalUserInterface class corresponding to different
 functionalities to maintain the single responsibility principle and improve cohesion. For example, refactoring out
 the frame to add a new HealthLog and the frame to remove an existing HealthLog.
+- In order to make the above refactoring work, we would create a class to take the functionality of storing 
+the current HealthProgress and program status messages. We need this to have only one instance that can be accessible 
+from all the ui classes. Hence, we would use a singleton design pattern. 
 - We can extract a superclass from the different types of graphs and make each graph class extend the superclass. 
 Through this, we are reducing duplicated code, and the chances of unexpected errors while making a change in 
 another class. 
