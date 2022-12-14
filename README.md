@@ -47,7 +47,7 @@ text-boxes and clicking the "Add Log" button to add the new HealthLog.
 - You can save the state of my application by clicking the "Save" button.
 - You can reload the state of my application by clicking the "Load" button
 
-## Phase 4: Task 2 
+
 ### Example Output Log
 
 LOGS: <br>
@@ -69,7 +69,7 @@ Since the logging action is done entirely in the model package,
 if no logs are printed on exiting the program this indicates that 
 none of the three actions stated above has occurred.
 
-## Phase 4: Task 3
+## Project Design
 
 In the current design, there are three main packages excluding the test package:
 
