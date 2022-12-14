@@ -37,27 +37,6 @@ body muscle and body water percentage has varied over the past 30 days.
 - As a user, I want to be able to load previously inputted health statistics from file.
 
 
-### Example Output Log
-
-LOGS: <br>
-Wed Nov 23 17:19:56 PST 2022 <br>
-New Health Log Added! <br>
-Wed Nov 23 17:19:57 PST 2022 <br>
-Health Logs Viewed! <br>
-Wed Nov 23 17:20:04 PST 2022 <br>
-Specified Health Log Removed!
-
-This is the log produced when the following actions have occurred:
-- A Health Log is added
-- Then, Health Logs are viewed
-- Then, a Health Log is removed
-
-The three actions being logged are when we **add a new Health Log**,
-when we **remove an existing Health Log** or when we **view all the existing Health Logs**. 
-Since the logging action is done entirely in the model package, 
-if no logs are printed on exiting the program this indicates that 
-none of the three actions stated above has occurred.
-
 ## Project Design
 
 In the current design, there are three main packages excluding the test package:
