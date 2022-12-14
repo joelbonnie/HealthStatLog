@@ -36,17 +36,6 @@ body muscle and body water percentage has varied over the past 30 days.
 - As a user, I want to be able to save the currently inputted health statistics to file.
 - As a user, I want to be able to load previously inputted health statistics from file.
 
-# Instructions for Grader
-
-- You can generate the first required event related to adding Xs to a Y by inputting values in the corresponding 
-text-boxes and clicking the "Add Log" button to add the new HealthLog.
-- You can generate the second required event related to adding Xs to a Y by inputting a date value and clicking the 
-"Delete Log" button to delete a particular log.
-- You can locate my visual component by clicking the "Create Graph" button and selecting which graph
- to display.
-- You can save the state of my application by clicking the "Save" button.
-- You can reload the state of my application by clicking the "Load" button
-
 
 ### Example Output Log
 
